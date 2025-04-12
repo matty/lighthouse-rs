@@ -1,0 +1,65 @@
+name: Release Build
+
+on:
+  push:
+    tags:
+      - "v*" # Trigger on version tags (v1.0.0, v0.2.1, etc.)
+
+# Add permissions for creating releases
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+          target: x86_64-pc-windows-msvc
+
+      - name: Build Release Binary
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --target x86_64-pc-windows-msvc
+
+      # Get version from tag (remove 'v' prefix)
+      - name: Get Version
+        id: get_version
+        shell: bash
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Create Release Folder
+        shell: bash
+        run: |
+          mkdir release
+          mkdir release/steamvr
+          cp target/x86_64-pc-windows-msvc/release/lighthouse-rs.exe release/
+          cp steamvr/lighthouse-rs.vrmanifest release/steamvr/
+
+      - name: Create Zip Archive
+        shell: bash
+        run: |
+          cd release
+          7z a -tzip lighthouse-rs-${{ steps.get_version.outputs.VERSION }}-win-x64.zip ./*
+          mv lighthouse-rs-${{ steps.get_version.outputs.VERSION }}-win-x64.zip ../
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: ${{ steps.get_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+          files: lighthouse-rs-${{ steps.get_version.outputs.VERSION }}-win-x64.zip

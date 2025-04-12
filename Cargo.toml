@@ -1,0 +1,26 @@
+[package]
+name = "lighthouse-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+btleplug = "0.11"
+tokio = { version = "1", features = ["full"] }
+futures = "0.3"
+uuid = "1.4"
+thiserror = "1.0.50"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[profile.release]
+# Enable link-time optimization for maximum performance
+lto = true
+# Enable optimizations for size
+opt-level = "z"
+# Strip debug symbols
+strip = true
+# Enable code generation units for better parallelism during compilation
+codegen-units = 1
+# Panic behavior: abort gives smaller binaries than unwind
+panic = "abort"
+

@@ -1,0 +1,21 @@
+{
+  "source": "builtin",
+  "applications": [
+    {
+      "app_key": "matty.lighthouse-rs",
+      "launch_type": "binary",
+      "binary_path_windows": "../lighthouse-rs.exe",
+      "arguments": "--steamvr-started",
+      "arguments_on_exit": "--steamvr-stopped",
+      "is_dashboard_overlay": false,
+      "arguments_optional": false,
+      "strings": {
+        "en_us": {
+          "name": "Lighthouse-rs",
+          "description": "VR Lighthouse Base Station Manager"
+        }
+      }
+    }
+  ]
+}
+
