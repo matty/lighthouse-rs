@@ -1,0 +1,14 @@
+[package]
+name = "lighthouse_core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+btleplug = "0.11"
+tokio = { version = "1", features = ["full"] }
+futures = "0.3"
+uuid = "1.4"
+thiserror = "1.0.50"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+directories = "5.0"
