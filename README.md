@@ -21,6 +21,10 @@ Lighthouse Manager is a tool for managing VR Lighthouse Base Stations via Blueto
 
 The application (`Lighthouse Manager.exe`) is a interface for managing your devices.
 
+<p align="center">
+	<img src="screenshot.png" alt="Lighthouse Manager Screenshot" />
+</p>
+
 ### Features
 
 - **Device Management**: Scan, view, and manage your Lighthouse devices.
